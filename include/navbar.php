@@ -171,11 +171,27 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                     <ul class="pcoded-submenu">
- 
-                                        <li class="active">
-                                            <a href="logrecord.php" class="waves-effect waves-dark">
+
+                                    <li class="active">
+                                            <a href="loginformation.php" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-layout-sidebar-left"></i><b>S</b></span>
-                                                <span class="pcoded-mtext">View Log Record</span>
+                                                <span class="pcoded-mtext">Log Record</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+
+                                        <li class="active">
+                                            <a href="registeredface.php" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-layout-sidebar-left"></i><b>S</b></span>
+                                                <span class="pcoded-mtext">Registered Faces</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+
+                                        <li class="active">
+                                            <a href="userInformation.php" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-layout-sidebar-left"></i><b>S</b></span>
+                                                <span class="pcoded-mtext">Known Faces</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>

@@ -5,8 +5,27 @@ include ('include/navbar.php');
 
 
 
+$noStudent = mysqli_query($con, "SELECT COUNT(*) from known_faces WHERE userType='Student'"); 
+$studentcount = mysqli_fetch_array($noStudent);
+
+$noEmployee = mysqli_query($con, "SELECT COUNT(*) from known_faces WHERE userType='Employee'"); 
+$employeecount = mysqli_fetch_array($noEmployee);
+
+
+$noFaceDetected= mysqli_query($con, "SELECT COUNT(*) from attendance"); 
+$noDetected = mysqli_fetch_array($noFaceDetected);
+
+$average= mysqli_query($con, "SELECT SUM(match_score) / COUNT(match_score) from attendance"); 
+$averageScore = mysqli_fetch_array($average);
 
 ?>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+           <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>  
+           <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>            
+           <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" /> 
+
 
 <body>
     <!-- Pre-loader start -->
@@ -71,7 +90,9 @@ include ('include/navbar.php');
                                     <div class="col-md-8">
                                         <div class="page-header-title">
                                             <h5 class="m-b-10">Dashboard</h5>
-                                            <p class="m-b-0">Welcome to Material Able</p>
+                                            <p class="m-b-0">
+                                    Real-time Face Recognition System with Haar Cascade Classifier and Local Binary Pattern Histogram
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -105,7 +126,7 @@ include ('include/navbar.php');
                                                                         <i class="far fa-user text-c-purple f-24"></i>
                                                                     </div>
                                                                     <div class="col-8 p-l-0">
-                                                                        <h5>#</h5>
+                                                                        <h5><?php   echo "$employeecount[0] " ?></h5>
                                                                         <p class="text-muted m-b-0">Registered Employee</p>
                                                                     </div>
                                                                 </div>
@@ -117,7 +138,7 @@ include ('include/navbar.php');
  f-24"></i>
                                                                     </div>
                                                                     <div class="col-8 p-l-0">
-                                                                        <h5>#</h5>
+                                                                        <h5><?php   echo "$studentcount[0] " ?></h5>
                                                                         <p class="text-muted m-b-0">Registered Student</p>
                                                                     </div>
                                                                 </div>
@@ -137,7 +158,7 @@ include ('include/navbar.php');
                                                                         <i class="fas fa-share-alt text-c-purple f-24"></i>
                                                                     </div>
                                                                     <div class="col-8 p-l-0">
-                                                                        <h5>1000</h5>
+                                                                        <h5><?php   echo "$noDetected[0] " ?></h5>
                                                                         <p class="text-muted m-b-0">Face Detected</p>
                                                                     </div>
                                                                 </div>
@@ -148,8 +169,8 @@ include ('include/navbar.php');
                                                                         <i class="fas fa-sitemap text-c-green f-24"></i>
                                                                     </div>
                                                                     <div class="col-8 p-l-0">
-                                                                        <h5>500</h5>
-                                                                        <p class="text-muted m-b-0">Unauthorized Detected</p>
+                                                                        <h5>5</h5>
+                                                                        <p class="text-muted m-b-0">Unauthorized</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -166,7 +187,7 @@ include ('include/navbar.php');
                                                                 <i class="fas fa-star mat-icon f-24"></i>
                                                             </div>
                                                             <div class="col-9 cst-cont">
-                                                                <h2>86 </h2>
+                                                                <h2><?php   echo "$averageScore[0] " ?>%</h2>
                                                                 <h6 class="m-b-0">Averange Recognition Score</h6>
                                                             </div>
                                                         </div>
@@ -197,65 +218,30 @@ include ('include/navbar.php');
                                                     </div>
                                                     <div class="card-block">
                                                         <div class="table-responsive">
-                                                            <table class="table table-hover m-b-0 without-header">
+                                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                            <?php $results = mysqli_query($con, "SELECT * from attendance"); ?>
+                                                                <thead>
+                                                                <tr>
+                                                                <th>Name </th>
+                                                                <th> Type </th>
+                                                                <th>Time </th>
+                                                                <th>Date</th>
+                                                                <th>Match Score</th>
+                                                                    </tr>
+                                                                </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="d-inline-block align-middle">
-                                                                                <img src="assets/images/avatar-4.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
-                                                                                <div class="d-inline-block">
-                                                                                    <h6>Shirley Hoe</h6>
-                                                                                    <p class="text-muted m-b-0">Sales executive , NY</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="text-right">
-                                                                            <h6 class="f-w-700">$78.001<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="d-inline-block align-middle">
-                                                                                <img src="assets/images/avatar-2.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
-                                                                                <div class="d-inline-block">
-                                                                                    <h6>James Alexander</h6>
-                                                                                    <p class="text-muted m-b-0">Sales executive , EL</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="text-right">
-                                                                            <h6 class="f-w-700">$89.051<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="d-inline-block align-middle">
-                                                                                <img src="assets/images/avatar-4.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
-                                                                                <div class="d-inline-block">
-                                                                                    <h6>Shirley Hoe</h6>
-                                                                                    <p class="text-muted m-b-0">Sales executive , NY</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="text-right">
-                                                                            <h6 class="f-w-700">$89.051<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="d-inline-block align-middle">
-                                                                                <img src="assets/images/avatar-2.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
-                                                                                <div class="d-inline-block">
-                                                                                    <h6>Nick Xander</h6>
-                                                                                    <p class="text-muted m-b-0">Sales executive , EL</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="text-right">
-                                                                            <h6 class="f-w-700">$89.051<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
-                                                                        </td>
-                                                                    </tr>
+                                                        <?php while ($row = mysqli_fetch_array($results)) { ?>
+                                                                            <tr>
+                                                                <td><?php echo $row['name']; ?></td>
+                                                                <td><?php echo $row['personType']; ?></td>
+                                                                <td><?php echo $row['time']; ?></td>
+                                                                <td><?php echo $row['date']; ?></td>
+                                                                <td><?php echo $row['match_score']; ?></td>
+
+                                                        </tr>
+
                                                                 </tbody>
+                                                                <?php } ?>
                                                             </table>
 
                                                         </div>
@@ -283,9 +269,6 @@ include ('include/navbar.php');
 
 
 
-
-
-                                         
 
                                         
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
